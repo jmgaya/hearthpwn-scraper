@@ -39,7 +39,3 @@ sraper.on('finished', function(popularDecks) {
     console.log(popularDecks);
 });
 ```
-
-
-# Todo
-Use Fetch API: https://developer.mozilla.org/en/docs/Web/API/Fetch_API
