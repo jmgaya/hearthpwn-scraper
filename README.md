@@ -34,8 +34,8 @@ var options = {
     heroes: ['priest', 'paladin']
 };
 
-var sraper = hearthpwn.getPopularDecks(options);
-sraper.on('finished', function(popularDecks) {
+var scraper = hearthpwn.getPopularDecks(options);
+scraper.on('finished', function(popularDecks) {
     console.log(popularDecks);
 });
 ```
