@@ -12,7 +12,7 @@ npm install hearthpwn-scraper --save
 
 # Examples
 ```js
-const hearthpwn = require('./lib/hearthpwn-scraper');
+const hearthpwn = require('hearthpwn-scraper');
 
 hearthpwn.getPopularDecks()
   .then(popularDecks => console.log(popularDecks));
@@ -30,6 +30,6 @@ const options = {
     heroes: ['priest', 'paladin']
 };
 
-hearthpwn.getPopularDecks(options);
+hearthpwn.getPopularDecks(options)
   .then(popularDecks => console.log(popularDecks));
 ```
