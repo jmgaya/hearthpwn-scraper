@@ -1,5 +1,4 @@
 const cheerio = require('cheerio');
-const EventEmitter = require('events').EventEmitter;
 const req = require('request');
 const iconv = require('iconv');
 
@@ -50,45 +49,49 @@ const parseCard = elem =>
 /**
  * Returns an array containing the first page of the most popular decks
  * @param {object} options - Options object
- * @returns {EventEmitter}
+ * @returns {Promise}
  */
-const getPopularDecks = options => {
-  const scraper = new EventEmitter();
-  const popularDecksUrl = { url: `${MAIN_URL}/decks${getFilter(options)}` };
+const getPopularDecks = options =>
+  new Promise((resolve, reject) => {
+    const popularDecksUrl = { url: `${MAIN_URL}/decks${getFilter(options)}` };
 
-  request(popularDecksUrl, (err, resp, body) => {
-    const $ = cheerio.load(body);
-    const popularDecks = [];
-    $('tbody')
-      .find('a')
-      .filter((i) => i % 2 === 0)
-      .each((i, elem) => popularDecks.push(parseDeck(elem)));
-    scraper.emit('finished', popularDecks);
+    request(popularDecksUrl, (err, resp, body) => {
+      if (err) {
+        reject(err);
+      } else {
+        const $ = cheerio.load(body);
+        const popularDecks = [];
+        $('tbody')
+          .find('a')
+          .filter((i) => i % 2 === 0)
+          .each((i, elem) => popularDecks.push(parseDeck(elem)));
+        resolve(popularDecks);
+      }
+    });
   });
-
-  return scraper;
-};
 
 /**
  * Returns an array containing every card included in the given deck url
  * @param {string} url - Heartpwn deck url
- * @returns {EventEmitter}
+ * @returns {Promise}
  */
-const getDeckInfo = url => {
-  const scraper = new EventEmitter();
-  const deckInfoUrl = { url };
+const getDeckInfo = url =>
+  new Promise((resolve, reject) => {
+    const deckInfoUrl = { url };
 
-  request(deckInfoUrl, (err, resp, body) => {
-    const $ = cheerio.load(body);
-    const deckInfo = [];
-    $('aside')
-      .find('tbody td b a')
-      .each((i, elem) => deckInfo.push(parseCard(elem)));
-    scraper.emit('finished', deckInfo);
+    request(deckInfoUrl, (err, resp, body) => {
+      if (err) {
+        reject(err);
+      } else {
+        const $ = cheerio.load(body);
+        const deckInfo = [];
+        $('aside')
+          .find('tbody td b a')
+          .each((i, elem) => deckInfo.push(parseCard(elem)));
+        resolve(deckInfo);
+      }
+    });
   });
-
-  return scraper;
-};
 
 exports.getPopularDecks = getPopularDecks;
 exports.getDeckInfo = getDeckInfo;
