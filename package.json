@@ -1,6 +1,6 @@
 {
   "name": "hearthpwn-scraper",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Scraper for Hearthpwn site",
   "main": "lib/hearthpwn-scraper.js",
   "author": "jmgaya.dev@gmail.com",
